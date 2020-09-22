@@ -13,19 +13,15 @@ def cli():
 @click.argument('url')
 def meme2(url):
     """this reads a url"""
-    print(url)
     try:
-        print('create PoolManager')
         link = urllib3.PoolManager()
-        print('begin request')
         res = link.request('HEAD', url)
-        print('finished req')
         if(res.status == 200):
-            print(Fore.GREEN + f"{url}  passes with {req.status}!")
+            print(Fore.GREEN + f"{url}  passes with {res.status}!")
         elif (res.status == 403):
-            print(Fore.BLACK + f"{url} looks sus, it returned {req.status}")
+            print(Fore.BLACK + f"{url} looks sus, it returned {res.status}")
         else:
-            print(Fore.RED + f"{url} is dead, as it returned {req.status}")
+            print(Fore.RED + f"{url} is dead, as it returned {res.status}")
     except OSError:
         print("The file cannot be opened! Make sure this file can be read and is legit.")
     except:
