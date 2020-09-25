@@ -29,3 +29,7 @@ example: **release0_1 file test.html**
 version: returns you the version of this code 
 
 example: **release0_1 version**
+
+--help: gives you the lists of commands for help
+
+example: **release0_1 --help**
