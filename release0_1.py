@@ -30,7 +30,6 @@ def test_request(q):
 
 @click.group()
 def cli():
-    click.Context('--help')
     pass
 
 @cli.command('file')
@@ -44,6 +43,12 @@ def file_reader(file):
 def url_reader(url):
     """this reads a URL that you pass as an argument!"""
     test_request(str(url))
+
+
+
+@cli.command('version')
+def version_check():
+    print(Fore.BLUE + "Version 0.1")
 
 
 
