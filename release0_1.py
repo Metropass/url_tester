@@ -48,6 +48,7 @@ def url_reader(url):
 
 @cli.command('version')
 def version_check():
+    """Returns you the version number of this code"""
     print(Fore.BLUE + "Version 0.1")
 
 
