@@ -56,14 +56,6 @@ def version_check():
     """Returns you the version number of this code"""
     print(Fore.BLUE + "Version 0.1")
 
-# @cli.command('file')
-# @click.option('-s', '--secureHTTP', is_flag = True, help='Optional flag to check if https can be used instead of http')
-# def secure_http(file, s):
-#     """Optional flag to check if https can be used instead of http"""
-#     basic_file_read(file, s)
-
-
-
 
 if __name__ == '__main__':
     cli()
