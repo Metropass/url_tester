@@ -26,7 +26,10 @@ def website_read(q, s):
     except:
         print("This is an invalid link, please try again")
     else:
-        get_urls(response.data.decode('utf-8'), s)
+        try:
+            get_urls(response.data.decode('ISO-8859-1'), s)
+        except:
+            print("An error has occurred when retrieving the website")
 
 
 def basic_file_read(file, *args):
