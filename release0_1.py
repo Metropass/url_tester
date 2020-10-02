@@ -54,7 +54,8 @@ def file_reader(file, s):
 
 @cli.command('url')
 @click.argument('url')
-def url_reader(url):
+@click.option('--l', '-l', is_flag=True, help='look through the given website recursively and check the webpage for dead links')
+def url_reader(url, l):
     """this reads a URL that you pass as an argument!"""
     test_request(str(url))
 
