@@ -24,6 +24,7 @@ def basic_file_read(file, *args):
 
 
 def test_request(q):
+    # try adding more support for other html codes
     try:
         h = urllib3.PoolManager()
         req = h.request('HEAD', q)
