@@ -72,7 +72,7 @@ def file_reader(file, s):
 
 @cli.command('url')
 @click.argument('url')
-@click.option('--l', is_flag=True, help='look through the given website recursively and check the webpage for '
+@click.option('--l', is_flag=True, default=False, help='look through the given website recursively and check the webpage for '
                                               'dead links')
 @click.option('--s', is_flag=True, default=False, help='Optional flag to check if https can be used instead of http')
 def url_reader(url, l, s):
