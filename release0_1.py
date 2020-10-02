@@ -6,26 +6,27 @@ from colorama import Fore
 import sys
 
 
-def get_urls (data, *args):
+def get_urls(data, *args):
     s = args[0]
     pattern = re.findall(r'https?:[a-zA-Z0-9_.+-/#~]+', data)
-        for l in pattern:
-            q = l.strip()
-            test_request(q)
-            if (s):
-                isHttp = re.match('(http)', q)
-                if (isHttp):
-                    q = re.sub('(http)', 'https', q)
-                    test_request(q)
+    for l in pattern:
+        q = l.strip()
+        test_request(q)
+        if (s):
+            isHttp = re.match('(http)', q)
+            if (isHttp):
+                q = re.sub('(http)', 'https', q)
+                test_request(q)
 
-def website_read(q):
+
+def website_read(q, s):
     try:
-        h = urllib3.PoolManager().request(q, timeout=5.0)
+        h = urllib3.PoolManager()
+        response = h.request('GET', q, timeout=5.0)
     except:
         print("This is an invalid link, please try again")
     else:
-
-
+        get_urls(response.data.decode('utf-8'), s)
 
 
 def basic_file_read(file, *args):
@@ -68,12 +69,13 @@ def file_reader(file, s):
 
 @cli.command('url')
 @click.argument('url')
-@click.option('--l', '-l', is_flag=True, help='look through the given website recursively and check the webpage for '
+@click.option('--l', is_flag=True, help='look through the given website recursively and check the webpage for '
                                               'dead links')
-def url_reader(url, l):
+@click.option('--s', is_flag=True, default=False, help='Optional flag to check if https can be used instead of http')
+def url_reader(url, l, s):
     """this reads a URL that you pass as an argument!"""
     if l:
-        website_read(url)
+        website_read(url, s)
     else:
         test_request(str(url))
 
