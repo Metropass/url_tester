@@ -1,6 +1,7 @@
 import click
 import urllib3
 import re
+# check this with Click documentation
 from colorama import Fore
 import sys
 
