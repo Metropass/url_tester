@@ -17,19 +17,35 @@ The syntax for the script is the following:
 **release0_1 \[command] [arg]**
 
 # Commands
-url: pass a url as an argument to test for. This only tests the argument link, and is not recursive.
 
-example: **release0_1 url https://www.youtube.com/watch?v=zILpjFqlOak**
+## url
 
+**url**: pass a url as an argument to test for. This only tests the argument link, and is not recursive.
+ 
+    example: **release0_1 url https://www.youtube.com/watch?v=zILpjFqlOak**
 
-file: pass a file as an argument to test links inside. If the file has multiple links, it will test those as well.
+**--l**: an option for the **url** command that allows you to search through a website for dead links given the url
+    
+    example: **release0_1 url --l https://www.youtube.com/watch?v=zILpjFqlOak**
 
-example: **release0_1 file test.html**
+**--s**: an option for the **url** command that allows you to search through a website for http links and sees if they work as https
+    
+    example: **release0_1 url --s https://www.youtube.com/watch?v=zILpjFqlOak**
 
-version: returns you the version of this code 
+## file
 
-example: **release0_1 version**
+**file**: pass a file as an argument to test links inside. If the file has multiple links, it will test those as well.
 
---help: gives you the lists of commands for help
+    example: **release0_1 file test.html**
 
-example: **release0_1 --help**
+**--s**: an option for the **file** command that allows you to search through a file for http links and sees if they work as https
+    
+    example: **release0_1 url --s C:\Users\user1\Documents\file.html**
+
+**version**: returns you the version of this code 
+
+    example: **release0_1 version**
+
+**--help**: gives you the lists of commands for help
+
+    example: **release0_1 --help**
