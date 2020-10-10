@@ -26,14 +26,16 @@ def test_request(q,json):
                 print(Fore.GREEN + f"{q}  passes with {req.status}!")
             elif (req.status == 403):
                 print(Fore.WHITE + f"{q} looks sus, it returned {req.status}")
+
             else:
                 print(Fore.RED + f"{q} is dead, as it returned {req.status}")
+            return 0
         else:
             conv = {'url': q, 'status' : req.status}
             print(conv)
     except:
         print("Unknown Error: " + str(sys.exc_info()[0]))
-        sys.exit(1)
+        return -1
 
 @click.group()
 def cli():
@@ -47,11 +49,14 @@ def file_reader(file,json):
     q = False
     if json:
         q = True
-    basic_file_read(file,q)
+    a = basic_file_read(file,q)
+    if (a != 0):
+        sys.exit(a)
 
 @cli.command('url')
 @click.argument('url')
 @click.option('--json', is_flag=True)
+
 
 
 def url_reader(url,json):
@@ -59,7 +64,9 @@ def url_reader(url,json):
     q = False
     if json:
         q = True
-    test_request(str(url),q)
+    a = test_request(str(url),q)
+    if(a != 0):
+        sys.exit(a)
 
 
 
