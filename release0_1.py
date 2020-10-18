@@ -6,19 +6,21 @@ import sys
 import json
 
 
-def basic_file_read(file,json):
+def basic_file_read(file,json,ignore):
     try:
         file_data = open(file,'r',encoding="utf-8")
         pattern = re.findall(r'https?:[a-zA-Z0-9_.+-/#~]+', file_data.read())
         for l in pattern:
             q = l.strip()
-            test_request(q,json)
+            if(ignore != q):
+                test_request(q,json)
     except OSError:
         print("The file cannot be opened! Make sure this file can be read and is legit.")
         sys.exit(1)
 
 def test_request(q,json):
     try:
+
         h = urllib3.PoolManager()
         req = h.request('HEAD', q)
         if not json:
@@ -44,12 +46,13 @@ def cli():
 @cli.command('file')
 @click.argument('file')
 @click.option('--json', is_flag=True)
-def file_reader(file,json):
+@click.option('--ignore', default=None, type=str)
+def file_reader(file,json,ignore):
     """this reads URL links from a file!"""
     q = False
     if json:
         q = True
-    a = basic_file_read(file,q)
+    a = basic_file_read(file,q,ignore)
     if (a != 0):
         sys.exit(a)
 
