@@ -6,13 +6,13 @@ import sys
 import json
 
 
-def basic_file_read(file,json,ignore):
+def basic_file_read(file,json,ignore=None):
     try:
         file_data = open(file,'r',encoding="utf-8")
         pattern = re.findall(r'https?:[a-zA-Z0-9_.+-/#~]+', file_data.read())
         for l in pattern:
             q = l.strip()
-            if(ignore != q):
+            if(q not in ignore):
                 test_request(q,json)
     except OSError:
         print("The file cannot be opened! Make sure this file can be read and is legit.")
@@ -46,13 +46,16 @@ def cli():
 @cli.command('file')
 @click.argument('file')
 @click.option('--json', is_flag=True)
-@click.option('--ignore', default=None, type=str)
+@click.option('--ignore', default=None)
 def file_reader(file,json,ignore):
     """this reads URL links from a file!"""
     q = False
     if json:
         q = True
-    a = basic_file_read(file,q,ignore)
+    if ignore:
+        ignore_data = open(ignore,'r',encoding="utf-8")
+        ignore_pattern = re.findall(r'https?:[a-zA-Z0-9_.+-/#~]+', ignore_data.read())
+        a = basic_file_read(file,q,ignore_pattern)
     if (a != 0):
         sys.exit(a)
 
