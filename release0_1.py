@@ -5,16 +5,16 @@ from colorama import Fore
 import sys
 import json
 
-
-def basic_file_read(file, json, ignore):
+"""This is the main fnuction that reads from a file"""
+def basic_file_read(file, json_file, ignore):
     try:
         file_data = open(file, "r", encoding="utf-8")
         pattern = re.findall(r"https?:[a-zA-Z0-9_.+-/#~]+", file_data.read())
         list_of_status = []
-        for l in pattern:
-            q = l.strip()
-            if ignore != q:
-                list_of_status.append(test_request(q, json))
+        for l_e in pattern:
+            q_e = l_e.strip()
+            if ignore != q_e:
+                list_of_status.append(test_request(q_e, json))
         return list_of_status
     except OSError:
         print(
@@ -23,12 +23,12 @@ def basic_file_read(file, json, ignore):
         sys.exit(1)
 
 
-def test_request(q_e, json):
+def test_request(q_e, json_file):
     try:
 
-        h = urllib3.PoolManager()
-        req = h.request("HEAD", q_e)
-        if not json:
+        h_p = urllib3.PoolManager()
+        req = h_p.request("HEAD", q_e)
+        if not json_file:
             if req.status == 200:
                 print(Fore.GREEN + f"{q_e}  passes with {req.status}!")
             elif req.status == 403:
@@ -40,16 +40,17 @@ def test_request(q_e, json):
         else:
             conv = {"url": q_e, "status": req.status}
             print(conv)
+            return(0, req.status)
     except:
         print("Unknown Error: " + str(sys.exc_info()[0]))
         return (-1,1000)
 
 
-def telescope_urls(q_e, json=None):
-    h = urllib3.PoolManager()
-    req = h.request("HEAD", q_e)
+def telescope_urls(q_e, json_file=None):
+    h_p = urllib3.PoolManager()
+    req = h_p.request("HEAD", q_e)
     try:
-        if not json:
+        if not json_file:
             if req.status == 200:
                 print(Fore.GREEN + f"{q_e}  passes with {req.status}!")
             elif req.status == 403:
@@ -80,33 +81,33 @@ def file_reader(file, json, ignore):
     q_e = False
     if json:
         q_e = True
-    a = basic_file_read(file, q_e, ignore)
-    for x in list:
-        if a[x][0] != 0:
-            sys.exit(a[x][0])
-    return a[0][1]
+    a_e = basic_file_read(file, q_e, ignore)
+    for x_e in list:
+        if a_e[x_e][0] != 0:
+            sys.exit(a_e[x_e][0])
+    return a_e[0][1]
 
 
 @cli.command("url")
 @click.argument("url")
 @click.option("--json", is_flag=True)
-def url_reader(url, json):
+def url_reader(url, json_file):
     """this reads a URL that you pass as an argument!"""
     q_e = False
-    if json:
+    if json_file:
         q_e = True
-    a = test_request(str(url), q_e)
-    if a[0] != 0:
-        sys.exit(a[0])
+    a_e = test_request(str(url), q_e)
+    if a_e[0] != 0:
+        sys.exit(a_e[0])
     else:
-        sys.exit(a[1])
+        sys.exit(a_e[1])
 
 
 @cli.command("telescope")
 def telescope_reader():
-    h = urllib3.PoolManager()
+    h_e = urllib3.PoolManager()
     telescope_str = "http://localhost:3000/posts"
-    req = h.request("GET", telescope_str)
+    req = h_e.request("GET", telescope_str)
     try:
         posts = json.loads(req.data)
         for post in posts:
