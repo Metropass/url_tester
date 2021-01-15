@@ -23,43 +23,43 @@ def basic_file_read(file, json, ignore):
         sys.exit(1)
 
 
-def test_request(q, json):
+def test_request(q_e, json):
     try:
 
         h = urllib3.PoolManager()
-        req = h.request("HEAD", q)
+        req = h.request("HEAD", q_e)
         if not json:
             if req.status == 200:
-                print(Fore.GREEN + f"{q}  passes with {req.status}!")
+                print(Fore.GREEN + f"{q_e}  passes with {req.status}!")
             elif req.status == 403:
-                print(Fore.WHITE + f"{q} looks sus, it returned {req.status}")
+                print(Fore.WHITE + f"{q_e} looks sus, it returned {req.status}")
 
             else:
-                print(Fore.RED + f"{q} is dead, as it returned {req.status}")
+                print(Fore.RED + f"{q_e} is dead, as it returned {req.status}")
             return (0, req.status)
         else:
-            conv = {"url": q, "status": req.status}
+            conv = {"url": q_e, "status": req.status}
             print(conv)
     except:
         print("Unknown Error: " + str(sys.exc_info()[0]))
-        return -1
+        return (-1,1000)
 
 
-def telescope_urls(q, json=None):
+def telescope_urls(q_e, json=None):
     h = urllib3.PoolManager()
-    req = h.request("HEAD", q)
+    req = h.request("HEAD", q_e)
     try:
         if not json:
             if req.status == 200:
-                print(Fore.GREEN + f"{q}  passes with {req.status}!")
+                print(Fore.GREEN + f"{q_e}  passes with {req.status}!")
             elif req.status == 403:
-                print(Fore.WHITE + f"{q} looks sus, it returned {req.status}")
+                print(Fore.WHITE + f"{q_e} looks sus, it returned {req.status}")
 
             else:
-                print(Fore.RED + f"{q} is dead, as it returned {req.status}")
+                print(Fore.RED + f"{q_e} is dead, as it returned {req.status}")
             return 0
         else:
-            conv = {"url": q, "status": req.status}
+            conv = {"url": q_e, "status": req.status}
             print(conv)
     except:
         print("Unknown Error: " + str(sys.exc_info()[0]))
@@ -77,10 +77,10 @@ def cli():
 @click.option("--ignore", default=None, type=str)
 def file_reader(file, json, ignore):
     """this reads URL links from a file!"""
-    q = False
+    q_e = False
     if json:
-        q = True
-    a = basic_file_read(file, q, ignore)
+        q_e = True
+    a = basic_file_read(file, q_e, ignore)
     for x in list:
         if a[x][0] != 0:
             sys.exit(a[x][0])
@@ -92,10 +92,10 @@ def file_reader(file, json, ignore):
 @click.option("--json", is_flag=True)
 def url_reader(url, json):
     """this reads a URL that you pass as an argument!"""
-    q = False
+    q_e = False
     if json:
-        q = True
-    a = test_request(str(url), q)
+        q_e = True
+    a = test_request(str(url), q_e)
     if a[0] != 0:
         sys.exit(a[0])
     else:
