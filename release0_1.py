@@ -4,8 +4,9 @@ import re
 from colorama import Fore
 import sys
 import click
-"""This is the main fnuction that reads from a file"""
+
 def basic_file_read(file, json_file, ignore):
+    """This is the main fnuction that reads from a file"""
     try:
         file_data = open(file, "r", encoding="utf-8")
         pattern = re.findall(r"https?:[a-zA-Z0-9_.+-/#~]+", file_data.read())
@@ -21,8 +22,9 @@ def basic_file_read(file, json_file, ignore):
         )
         sys.exit(1)
 
-"""Tests a request with the arguments passed"""
+
 def test_request(q_e, json_file):
+    """Tests a request with the arguments passed"""
     try:
         h_p = urllib3.PoolManager()
         req = h_p.request("HEAD", q_e)
@@ -43,8 +45,9 @@ def test_request(q_e, json_file):
         print("Unknown Error: " + str(sys.exc_info()[0]))
         return (-1,1000)
 
-"""Unique Function for Telescope"""
+
 def telescope_urls(q_e, json_file=None):
+    """Unique Function for Telescope"""
     h_p = urllib3.PoolManager()
     req = h_p.request("HEAD", q_e)
     try:
