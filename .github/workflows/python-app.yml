@@ -28,7 +28,7 @@ jobs:
     - name: Lint with pylint
       run: |
         cd src
-        pylint -rn url_checker
+        pylint -rn release0_1
 
     - name: Test with pytest
       run: |
