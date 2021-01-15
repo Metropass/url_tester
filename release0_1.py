@@ -1,9 +1,9 @@
 import json
-import urllib3
 import re
 from colorama import Fore
 import sys
 import click
+import urllib3
 
 def basic_file_read(file, json_file, ignore):
     """This is the main fnuction that reads from a file"""
@@ -77,10 +77,10 @@ def cli():
 @click.argument("file")
 @click.option("--json", is_flag=True)
 @click.option("--ignore", default=None, type=str)
-def file_reader(file, json, ignore):
+def file_reader(file, json_file, ignore):
     """this reads URL links from a file!"""
     q_e = False
-    if json:
+    if json_file:
         q_e = True
     a_e = basic_file_read(file, q_e, ignore)
     for x_e in list:
@@ -106,6 +106,7 @@ def url_reader(url, json_file):
 
 @cli.command("telescope")
 def telescope_reader():
+    """Unique for Telescope"""
     h_e = urllib3.PoolManager()
     telescope_str = "http://localhost:3000/posts"
     req = h_e.request("GET", telescope_str)
@@ -113,8 +114,8 @@ def telescope_reader():
         posts = json.loads(req.data)
         for post in posts:
             telescope_urls(f"{telescope_str}/{post['id']}")
-    except urllib3.exceptions.MaxRetryError as e:  # At this point, the connection attempt timed out and therfore, the url cannot be reached, so in this case, we skip the url entirely.
-        print(str(e))
+    except urllib3.exceptions.MaxRetryError as e_e:  # At this point, the connection attempt timed out and therfore, the url cannot be reached, so in this case, we skip the url entirely.
+        print(str(e_e))
 
 
 @cli.command("version")
