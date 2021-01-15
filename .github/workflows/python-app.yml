@@ -27,7 +27,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with pylint
       run: |
-        pylint -rn release0_1
+        pylint -rn release0_1 -errors-only
 
     - name: Test with pytest
       run: |
