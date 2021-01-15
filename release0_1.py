@@ -1,10 +1,9 @@
-import click
+import json
 import urllib3
 import re
 from colorama import Fore
 import sys
-import json
-
+import click
 """This is the main fnuction that reads from a file"""
 def basic_file_read(file, json_file, ignore):
     try:
@@ -14,7 +13,7 @@ def basic_file_read(file, json_file, ignore):
         for l_e in pattern:
             q_e = l_e.strip()
             if ignore != q_e:
-                list_of_status.append(test_request(q_e, json))
+                list_of_status.append(test_request(q_e, json_file))
         return list_of_status
     except OSError:
         print(
@@ -22,10 +21,9 @@ def basic_file_read(file, json_file, ignore):
         )
         sys.exit(1)
 
-
+"""Tests a request with the arguments passed"""
 def test_request(q_e, json_file):
     try:
-
         h_p = urllib3.PoolManager()
         req = h_p.request("HEAD", q_e)
         if not json_file:
@@ -33,9 +31,9 @@ def test_request(q_e, json_file):
                 print(Fore.GREEN + f"{q_e}  passes with {req.status}!")
             elif req.status == 403:
                 print(Fore.WHITE + f"{q_e} looks sus, it returned {req.status}")
-
             else:
                 print(Fore.RED + f"{q_e} is dead, as it returned {req.status}")
+                return (0, req.status)
             return (0, req.status)
         else:
             conv = {"url": q_e, "status": req.status}
@@ -45,7 +43,7 @@ def test_request(q_e, json_file):
         print("Unknown Error: " + str(sys.exc_info()[0]))
         return (-1,1000)
 
-
+"""Unique Function for Telescope"""
 def telescope_urls(q_e, json_file=None):
     h_p = urllib3.PoolManager()
     req = h_p.request("HEAD", q_e)
