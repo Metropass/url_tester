@@ -1,7 +1,7 @@
 import json
 import re
-from colorama import Fore
 import sys
+from colorama import Fore
 import click
 import urllib3
 
@@ -59,10 +59,12 @@ def telescope_urls(q_e, json_file=None):
 
             else:
                 print(Fore.RED + f"{q_e} is dead, as it returned {req.status}")
+                return 0
             return 0
         else:
             conv = {"url": q_e, "status": req.status}
             print(conv)
+            return 0
     except:
         print("Unknown Error: " + str(sys.exc_info()[0]))
         return -1
@@ -70,6 +72,7 @@ def telescope_urls(q_e, json_file=None):
 
 @click.group()
 def cli():
+    """The main function to invoke click"""
     pass
 
 
@@ -114,15 +117,13 @@ def telescope_reader():
         posts = json.loads(req.data)
         for post in posts:
             telescope_urls(f"{telescope_str}/{post['id']}")
-    except urllib3.exceptions.MaxRetryError as e_e:  # At this point, the connection attempt timed out and therfore, the url cannot be reached, so in this case, we skip the url entirely.
-        print(str(e_e))
+    except urllib3.exceptions.MaxRetryError as e_e:
 
 
 @cli.command("version")
 def version_check():
     """Returns you the version number of this code"""
     print(Fore.BLUE + "Version 0.1")
-
 
 if __name__ == "__main__":
     cli()
