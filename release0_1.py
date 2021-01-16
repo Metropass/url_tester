@@ -118,7 +118,7 @@ def telescope_reader():
         for post in posts:
             telescope_urls(f"{telescope_str}/{post['id']}")
     except urllib3.exceptions.MaxRetryError as e_e:
-
+        print(str(e_e))
 
 @cli.command("version")
 def version_check():
